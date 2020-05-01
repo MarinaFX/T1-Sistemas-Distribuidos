@@ -1,20 +1,32 @@
+package cliente;
+import java.io.File;
 import java.io.IOException;
 import java.net.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Cliente {
     private static final int MAX_VAL = 16384;
     private static byte[] buff = new byte[MAX_VAL];
+    
+    private List<File> recursos = new LinkedList<File>();
 
     public static void main(String[] args) {
         DatagramSocket socket = null;
         DatagramPacket pacote = null;
-
+        InetAddress meuIp = null;
+        
         if (args.length != 3 || !args[1].equals("login")) {
             System.out.println("uso: <maquina> <login> <nickname>");
             return;
         }
-        InetAddress meuIp = null;
+        
 
         try {
             socket = new DatagramSocket();
@@ -83,4 +95,41 @@ public class Cliente {
             }
         }
     }
+    
+    private void getRecursos() {
+    	
+    	try (Stream<Path> paths = Files.walk(Paths.get("/home/arthur/Área de Trabalho/T1-Sistemas-Distribuidos/recursos"))) {
+    	    List<Path> aux = paths
+    	        .filter(Files::isRegularFile)
+    	        .collect(Collectors.toList());
+    	    
+    	    for (Path p : aux) {
+    	    	recursos.add(new File(p.toString()));
+    	    }
+    	} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+    	
+    	
+    }
+    
+    private void calculaHash() {
+    	
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
