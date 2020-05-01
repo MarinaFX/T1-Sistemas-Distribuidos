@@ -4,6 +4,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Servidor {
     private static DatagramSocket socket = null;
@@ -14,6 +16,7 @@ public class Servidor {
     private static final String FILE_NAME = "users.txt";
     private static final int MAX_VAL = 16384;
     private static byte[] buff = new byte[MAX_VAL];
+    public static List<Recurso> recursos = new LinkedList<Recurso>();
 
     private static String leLista() {
         String resposta = "";
@@ -34,6 +37,23 @@ public class Servidor {
         }
 
         return resposta;
+    }
+    
+    private static String[] separaCSV(String recebido) {
+    	
+    	String[] split = recebido.split(";");
+    	
+    	return split;
+    }
+    
+    private static void pegaRecursos(String[] recurso, InetAddress ip) {
+    	
+    	for( int i = 0 ; i < recurso.length ; i++) {
+    		if(i != i%2) {
+    			recursos.add(new Recurso(ip.getHostAddress(), recurso[i], recurso[i+1]));
+    		}
+    	}
+    	
     }
 
     private static void gravaLista(String nickname, InetAddress ip) {
@@ -78,9 +98,10 @@ public class Servidor {
             String recebido = new String(pacote.getData(), 0, pacote.getLength());
             String command = "!";
             String comCliente = String.valueOf(recebido.charAt(0));
-
+            String[] separado = separaCSV(recebido);
+            pegaRecursos(separado, pacote.getAddress());
             if (!(command.equals(comCliente))) {
-                nickname = recebido;
+                nickname = separado[0];
                 Servidor.gravaLista(nickname, pacote.getAddress());
                 Servidor.endCliente = pacote.getAddress();
                 Servidor.portCliente = pacote.getPort();
