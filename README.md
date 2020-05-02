@@ -11,15 +11,15 @@ outras informações de configuração, se necessário.
 
 #### **Requisitos/funcionalidades a serem implementadas**
 
-* **Os peers devem se registrar no servidor para poderem realizar a troca de
+* **Os peers devem se registrar no servidor ✅ para poderem realizar a troca de
     arquivos entre peers (essa é uma atividade da Aula 08 e 09);**
 * **Durante o registro, cada peer informa seus recursos disponíveis (utilize
-    um diretório com alguns arquivos, e calcule a hash de cada um). Para cada
+    um diretório com alguns arquivos, e calcule a hash de cada um).✅ Para cada
     arquivo, o peer fornece ao servidor uma string ou o nome do arquivo e sua
     hash (utilize funções como MD5 ou SHA256, calculada sobre o conteúdo
-    de cada arquivo);**
+    de cada arquivo);✅**
 * **O servidor associa cada recurso em uma estrutura de dados. Cada recurso
-    possui associado o IP do peer onde está o recurso e sua hash;**
+    possui associado o IP do peer onde está o recurso e sua hash;✅**
 * **Os peers podem solicitar uma lista de recursos (nomes dos arquivos /
     strings de identificação, IPs dos peers que contém os recursos e hashes) ao
     servidor ou um recurso específico;**
