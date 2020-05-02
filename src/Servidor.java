@@ -1,4 +1,3 @@
-package servidor;
 import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -17,65 +16,6 @@ public class Servidor {
     private static final int MAX_VAL = 16384;
     private static byte[] buff = new byte[MAX_VAL];
     public static List<Recurso> recursos = new LinkedList<Recurso>();
-
-    private static String leLista() {
-        String resposta = "";
-        try {
-            FileReader arq = new FileReader(FILE_NAME);
-            BufferedReader reader = new BufferedReader(arq);
-
-            String linha = reader.readLine();
-
-            while (linha != null) {
-                resposta += linha + "\n";
-                linha = reader.readLine();
-            }
-
-            arq.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return resposta;
-    }
-    
-    private static String[] separaCSV(String recebido) {
-    	
-    	String[] split = recebido.split(";");
-    	
-    	return split;
-    }
-    
-    private static void pegaRecursos(String[] recurso, InetAddress ip) {
-    	
-    	for( int i = 0 ; i < recurso.length ; i++) {
-    		if(i != i%2) {
-    			recursos.add(new Recurso(ip.getHostAddress(), recurso[i], recurso[i+1]));
-    		}
-    	}
-    	
-    }
-
-    private static void gravaLista(String nickname, InetAddress ip) {
-        try {
-            System.out.println("Salvando usuario");
-            FileWriter fileWriter = new FileWriter(Servidor.FILE_NAME, true);
-
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
-            bufferedWriter.write(nickname);
-            bufferedWriter.write(" ");
-            bufferedWriter.write(ip.toString());
-            bufferedWriter.newLine();
-
-            // Always close files.
-            bufferedWriter.close();
-
-            System.out.println("usuario salvo");
-        } catch (IOException ex) {
-            System.out.println("Error writing to file '" + FILE_NAME + "'");
-        }
-    }
 
     public static void main(String[] args) {
         try {
@@ -139,6 +79,64 @@ public class Servidor {
                     }
                 }
             }
+        }
+    }
+
+    private static String leLista() {
+        String resposta = "";
+        try {
+            FileReader arq = new FileReader(FILE_NAME);
+            BufferedReader reader = new BufferedReader(arq);
+
+            String linha = reader.readLine();
+
+            while (linha != null) {
+                resposta += linha + "\n";
+                linha = reader.readLine();
+            }
+
+            arq.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return resposta;
+    }
+    
+    private static String[] separaCSV(String recebido) {
+    	
+    	String[] split = recebido.split(";");
+    	
+    	return split;
+    }
+    
+    private static void pegaRecursos(String[] recurso, InetAddress ip) {
+
+        for( int i = 0 ; i < recurso.length ; i++) {
+            if (i % 2 != 0 && i != 0) {
+                recursos.add(new Recurso(ip.getHostAddress(), recurso[i], recurso[i + 1]));
+            }
+        }
+    }
+
+    private static void gravaLista(String nickname, InetAddress ip) {
+        try {
+            System.out.println("Salvando usuario");
+            FileWriter fileWriter = new FileWriter(Servidor.FILE_NAME, true);
+
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            bufferedWriter.write(nickname);
+            bufferedWriter.write(" ");
+            bufferedWriter.write(ip.toString());
+            bufferedWriter.newLine();
+
+            // Always close files.
+            bufferedWriter.close();
+
+            System.out.println("usuario salvo");
+        } catch (IOException ex) {
+            System.out.println("Error writing to file '" + FILE_NAME + "'");
         }
     }
 }

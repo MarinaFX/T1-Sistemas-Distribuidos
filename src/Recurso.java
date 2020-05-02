@@ -1,4 +1,3 @@
-package servidor;
 
 public class Recurso {
 	

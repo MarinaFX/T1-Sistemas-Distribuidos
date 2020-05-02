@@ -1,8 +1,7 @@
-package cliente;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
+//import java.io.ObjectOutputStream;
 import java.net.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,12 +14,12 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
+//import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
 
 public class Cliente {
 	private static final int MAX_VAL = 16384;
 	private static byte[] buff = new byte[MAX_VAL];
-	private static final String PATH = "/home/arthur/Área de Trabalho/T1-Sistemas-Distribuidos/recursos";
+	private static final String PATH = "/Users/thaisfernandes/Desktop/teste"; //criar input depois
 	private static final byte[] SEPARADOR = ";".getBytes();
 
 	public static void main(String[] args) {
