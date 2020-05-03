@@ -28,7 +28,7 @@ outras informações de configuração, se necessário.
     diretamente com o mesmo;**
 * **O servidor é responsável por manter a estrutura da rede de overlay. Para
     isso os peers devem enviar mensagens periódicas ao servidor (a cada 5
-    segundos).✅ Caso um peer não envie 2 solicitações seguidas a um servidor,
+    segundos). Caso um peer não envie 2 solicitações seguidas a um servidor,
     o mesmo é removido.**
 
 Para o desenvolvimento, é sugerido que os alunos utilizem uma rede com

@@ -16,7 +16,7 @@ public class Servidor {
     private static InetAddress endCliente = null;
     private static int portCliente = 0;
     private static final String FILE_NAME = "users.txt";
-    private static final int MAX_VAL = 50000;
+    private static final int MAX_VAL = 20000;
     private static byte[] buff = new byte[MAX_VAL];
     public static List<Recurso> recursos = new LinkedList<Recurso>();
 
@@ -86,7 +86,7 @@ public class Servidor {
                         e.printStackTrace();
                     }
 
-                } else if (recebido.equals("!recursos")) {
+                } else if (recebido.contains("!recur")) {
 
                     try {
                         String resposta = Servidor.leListaRecursos();

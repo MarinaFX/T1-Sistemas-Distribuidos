@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 //import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
 
 public class Cliente {
-	private static final int MAX_VAL = 16384;
+	private static final int MAX_VAL = 20000;
 	private static byte[] buff = new byte[MAX_VAL];
 	private static final String PATH = "/Users/thaisfernandes/Desktop/teste"; // criar input depois
 	private static final byte[] SEPARADOR = ";".getBytes();
@@ -27,7 +27,7 @@ public class Cliente {
 		DatagramPacket pacote = null;
 		InetAddress meuIp = null;
 		ByteArrayOutputStream envio = new ByteArrayOutputStream();
-		Thread msgPeriodica = new Thread(new Mensagem(args[0]));
+		//Thread msgPeriodica = new Thread(new Mensagem(args[0]));
 
 		if (args.length != 3 || !args[1].equals("login")) {
 			System.out.println("\nuso: <maquina> login <nickname>\n");
@@ -35,7 +35,7 @@ public class Cliente {
 		}
 
 		try {
-			msgPeriodica.start();
+			//msgPeriodica.start();
 
 			socket = new DatagramSocket();
 
@@ -124,7 +124,7 @@ public class Cliente {
 				try {
 					pacote = new DatagramPacket(Cliente.buff, Cliente.buff.length, meuIp, 1500);
 					socket.send(pacote);
-					Cliente.buff = new byte[20000];
+					Cliente.buff = new byte[16384];
 					pacote = new DatagramPacket(Cliente.buff, Cliente.buff.length);
 					socket.receive(pacote);
 					String resposta = new String(pacote.getData(), 0, pacote.getLength());
