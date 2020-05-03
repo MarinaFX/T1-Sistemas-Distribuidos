@@ -23,4 +23,8 @@ public class Recurso {
 		return hash;
 	}
 
+	public String toString() {
+		return "\nNome: " + name + ",\n" + "IP: " + ip + ",\nHash: " + hash + "\n";
+	}
+
 }
