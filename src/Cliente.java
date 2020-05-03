@@ -27,6 +27,7 @@ public class Cliente {
 		DatagramPacket pacote = null;
 		InetAddress meuIp = null;
 		ByteArrayOutputStream envio = new ByteArrayOutputStream();
+		Thread msgPeriodica = new Thread(new Mensagem(args[0]));
 
 		if (args.length != 3 || !args[1].equals("login")) {
 			System.out.println("\nuso: <maquina> login <nickname>\n");
@@ -34,6 +35,8 @@ public class Cliente {
 		}
 
 		try {
+			msgPeriodica.start();
+
 			socket = new DatagramSocket();
 
 			envio.write(args[2].getBytes());
@@ -78,7 +81,8 @@ public class Cliente {
 
 		while (true) {
 			System.out.println("\ncomandos:\n!sair -> encerra servidor" + "\n!lista -> mostra os usuarios do servidor"
-					+ "\n!recursos -> mostra os recursos disponiveis\n");
+					+ "\n!recursos -> mostra os recursos disponiveis"
+					+ "\n!get -> permite solicitar recurso especifico\n");
 			Scanner in = new Scanner(System.in);
 			comando = in.nextLine();
 
@@ -128,7 +132,6 @@ public class Cliente {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
 			}
 		}
 	}

@@ -16,7 +16,7 @@ public class Servidor {
     private static InetAddress endCliente = null;
     private static int portCliente = 0;
     private static final String FILE_NAME = "users.txt";
-    private static final int MAX_VAL = 16384;
+    private static final int MAX_VAL = 50000;
     private static byte[] buff = new byte[MAX_VAL];
     public static List<Recurso> recursos = new LinkedList<Recurso>();
 
@@ -87,18 +87,17 @@ public class Servidor {
                     }
 
                 } else if (recebido.equals("!recursos")) {
-                    System.out.println("foiii");
-                     try {
-                         String resposta = Servidor.leListaRecursos();
-                         Servidor.buff = resposta.getBytes();
-                         pacote = new DatagramPacket(Servidor.buff, Servidor.buff.length, Servidor.endCliente,
-                                 Servidor.portCliente);
-                         socket.send(pacote);
-                         System.out.println("\nMensagem enviada para " + endCliente + ", porta " + portCliente + "\n");
-                     } catch (IOException e) {
-                         e.printStackTrace();
-                     }
 
+                    try {
+                        String resposta = Servidor.leListaRecursos();
+                        Servidor.buff = resposta.getBytes();
+                        pacote = new DatagramPacket(Servidor.buff, Servidor.buff.length, Servidor.endCliente,
+                                Servidor.portCliente);
+                        socket.send(pacote);
+                        System.out.println("\nMensagem enviada para " + endCliente + ", porta " + portCliente + "\n");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

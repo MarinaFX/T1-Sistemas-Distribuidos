@@ -13,22 +13,22 @@ outras informações de configuração, se necessário.
 
 * **Os peers devem se registrar no servidor ✅ para poderem realizar a troca de
     arquivos entre peers (essa é uma atividade da Aula 08 e 09);**
-* **Durante o registro, cada peer informa seus recursos disponíveis (utilize
+* **✅✅Durante o registro, cada peer informa seus recursos disponíveis (utilize
     um diretório com alguns arquivos, e calcule a hash de cada um). Para cada
     arquivo, o peer fornece ao servidor uma string ou o nome do arquivo e sua
     hash (utilize funções como MD5 ou SHA256, calculada sobre o conteúdo
-    de cada arquivo);✅✅**
-* **O servidor associa cada recurso em uma estrutura de dados. Cada recurso
-    possui associado o IP do peer onde está o recurso e sua hash;✅✅**
+    de cada arquivo);**
+* **✅✅O servidor associa cada recurso em uma estrutura de dados. Cada recurso
+    possui associado o IP do peer onde está o recurso e sua hash;**
 * **Os peers podem solicitar uma lista de recursos (nomes dos arquivos /
     strings de identificação, IPs dos peers que contém os recursos e hashes) ao
-    servidor ✅ ou um recurso específico;**ß
+    servidor ✅ ou um recurso específico;**
 * **Ao solicitar um recurso ao servidor, o peer recebe a informação sobre sua
     localização (outro peer) e deve então realizar essa comunicação
     diretamente com o mesmo;**
 * **O servidor é responsável por manter a estrutura da rede de overlay. Para
     isso os peers devem enviar mensagens periódicas ao servidor (a cada 5
-    segundos). Caso um peer não envie 2 solicitações seguidas a um servidor,
+    segundos).✅ Caso um peer não envie 2 solicitações seguidas a um servidor,
     o mesmo é removido.**
 
 Para o desenvolvimento, é sugerido que os alunos utilizem uma rede com
