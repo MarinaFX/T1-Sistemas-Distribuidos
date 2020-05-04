@@ -6,13 +6,9 @@ import java.net.SocketException;
 
 public class Servidor {
     private static DatagramSocket socket = null;
-    private static String nickname;
-    private static int port = 1500;
     private static InetAddress endCliente = null;
     private static int portCliente = 0;
     private static final String FILE_NAME = "users.txt";
-    private static final int MAX_VAL = 16384;
-    private static byte[] buff = new byte[MAX_VAL];
 
     private static String leLista() {
         String resposta = "";
@@ -56,9 +52,74 @@ public class Servidor {
         }
     }
 
+    private static void trataComandos(DatagramPacket pacote) {
+
+        while (true) {
+            String recebido = new String(pacote.getData(), 0, pacote.getLength());
+            String commandCliente = String.valueOf(recebido.charAt(0));
+
+            if (!(commandCliente.equals("!"))) {
+                Servidor.gravaLista(recebido, pacote.getAddress());
+                Servidor.endCliente = pacote.getAddress();
+                Servidor.portCliente = pacote.getPort();
+
+                byte[] saida = new byte[2048];
+                saida = new String("Logado").getBytes();
+                pacote = new DatagramPacket(saida, saida.length, endCliente, portCliente);
+                try {
+                    socket.send(pacote);
+                    System.out.println("\nMensagem enviada para " + endCliente + ", porta " + portCliente);
+                } catch (IOException e) {
+                    System.out.println("erro no envio de pacote para cliente " + endCliente + ":" + portCliente);
+                } finally {
+                    break;
+                }
+            } else {
+                if (recebido.equals("!sair")) {
+                    try {
+                        byte[] saida = new byte[2048];
+
+                        saida = new String("Servidor encerrado").getBytes();
+                        pacote = new DatagramPacket(saida, saida.length, Servidor.endCliente, Servidor.portCliente);
+                        socket.send(pacote);
+                        System.out.println("servidor encerrado");
+                        socket.close();
+                        return;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        System.exit(0);
+                    }
+                } else {
+                    if (recebido.equals("!lista")) {
+                        try {
+                            byte[] saida = new byte[2048];
+
+                            String resposta = Servidor.leLista();
+                            saida = resposta.getBytes();
+                            pacote = new DatagramPacket(saida, saida.length, Servidor.endCliente, Servidor.portCliente);
+                            socket.send(pacote);
+
+                            System.out.println("\nMensagem enviada para " + endCliente + ", porta " + portCliente);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        finally {
+                            break;
+                        }
+                    } else {
+                        if (recebido.equals("!arquivo")){
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) {
         try {
-            socket = new DatagramSocket(port);
+            socket = new DatagramSocket(1500);
             System.out.println("\nServer port: " + socket.getLocalPort());
         } catch (SocketException e) {
             System.out.println("erro na criação do servidor");
@@ -66,7 +127,8 @@ public class Servidor {
 
         while (true) {
             //recebe o datagrama
-            DatagramPacket pacote = new DatagramPacket(Servidor.buff, Servidor.buff.length);
+            byte[] entrada = new byte[2048];
+            DatagramPacket pacote = new DatagramPacket(entrada, entrada.length);
             try {
                 System.out.println("Esperando o recebimento do cliente...");
                 socket.receive(pacote);
@@ -74,49 +136,7 @@ public class Servidor {
                 System.out.println("erro no receive do servidor");
             }
 
-            String recebido = new String(pacote.getData(), 0, pacote.getLength());
-            String command = "!";
-            String comCliente = String.valueOf(recebido.charAt(0));
-
-            if (!(command.equals(comCliente))) {
-                nickname = recebido;
-                Servidor.gravaLista(nickname, pacote.getAddress());
-                Servidor.endCliente = pacote.getAddress();
-                Servidor.portCliente = pacote.getPort();
-                Servidor.buff = new String("Logado").getBytes();
-                pacote = new DatagramPacket(Servidor.buff, Servidor.buff.length, endCliente, portCliente);
-                try {
-                    socket.send(pacote);
-                    System.out.println("\nMensagem enviada para " + endCliente + ", porta " + portCliente);
-                } catch (IOException e) {
-                    System.out.println("erro no envio de pacote para cliente " + endCliente + ":" + portCliente);
-                }
-            } else {
-                if (recebido.equals("!sair")) {
-                    try {
-                        Servidor.buff = new String("Servidor encerrado").getBytes();
-                        pacote = new DatagramPacket(Servidor.buff, Servidor.buff.length, Servidor.endCliente, Servidor.portCliente);
-                        socket.send(pacote);
-                        System.out.println("servidor encerrado");
-                        socket.close();
-                        break;
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    if (recebido.equals("!lista")) {
-                        try {
-                            String resposta = Servidor.leLista();
-                            Servidor.buff = resposta.getBytes();
-                            pacote = new DatagramPacket(Servidor.buff, Servidor.buff.length, Servidor.endCliente, Servidor.portCliente);
-                            socket.send(pacote);
-                            System.out.println("\nMensagem enviada para " + endCliente + ", porta " + portCliente);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
+            Servidor.trataComandos(pacote);
         }
     }
 }

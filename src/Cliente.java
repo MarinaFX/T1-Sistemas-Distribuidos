@@ -44,7 +44,8 @@ public class Cliente {
 
         while (true) {
             System.out.println("comandos:\n!sair -> encerra servidor" +
-                    "\n!lista -> mostra os usuarios do servidor");
+                    "\n!lista -> mostra os usuarios do servidor" +
+                    "\n !arquivos -> mostra os arquivos disponiveis");
             Scanner in = new Scanner(System.in);
             comando = in.nextLine();
 

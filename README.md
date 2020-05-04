@@ -37,11 +37,10 @@ máquinas (pelo menos 3 VM/máquinas e pelo menos 5 terminais). Juntamente
 com sua implementação, deve ser entregue um relatório descrevendo a mesma,
 incluindo os seguintes aspectos: 
 
-1. organização do código (por exemplo,
-descrição das funcionalidades dos módulos ou classes); 
-2. utilização do
-programa; 
-3. demonstração da implementação, apresentando casos de uso.
+1. **organização do código (por exemplo,
+descrição das funcionalidades dos módulos ou classes);** 
+2. **utilização do programa;** 
+3. **demonstração da implementação, apresentando casos de uso.**
 
 
 O trabalho deve ser realizado em grupos de 2 ou 3 integrantes. Qualquer
